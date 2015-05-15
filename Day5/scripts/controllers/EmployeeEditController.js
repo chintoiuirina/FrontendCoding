@@ -13,11 +13,30 @@ hrApp.controller('EmployeeEditController', ['$scope', '$http', '$routeParams', '
         $scope.employee = {};
     };
 
+     $http({url: 'http://hrapp-zth.rhcloud.com/hrapp/employees/'+$routeParams.employeeid, method: 'GET'}).
+            success(function (data) {
+                $scope.employee = data;
+            });
+
+        $http({url: $commonResourcesFactory.findAllDepartmentsUrl, method: 'GET'}).
+            success(function (data, status, headers, config) {
+                $scope.departments = data;
+            });
+
+        $http({url: $commonResourcesFactory.findAllEmployeesUrl , method: 'GET'}).
+            success(function (data, status, headers, config) {
+                $scope.managers = data;
+            });
+
+        $http({url: $commonResourcesFactory.findAllJobsUrl , method: 'GET'}).
+            success(function (data, status, headers, config) {
+                $scope.jobs = data;
+            });
     /**
      * Persist an employee
      * @param addEmployee - employee to be persisted
      */
-    $scope.create = function (addEmployee) {
+    $scope.edit = function (addEmployee) {
         $http({url: $commonResourcesFactory.editEmployeeUrl, method: 'PUT', data:addEmployee}).
             success(function (data) {
                 $scope.employee = data;

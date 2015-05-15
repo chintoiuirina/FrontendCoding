@@ -53,7 +53,7 @@ hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'com
 
 
         // TODO add viewEmployee function using $location
-        $scope.viewEmployee = function (employeeId) {
+       $scope.viewEmployee = function (employeeId) {
             $location.url('/employeeview/' + employeeId);
         };
 
@@ -62,4 +62,15 @@ hrApp.controller('EmployeeListController', ['$scope', '$http', '$location', 'com
      };
 
 
+        $scope.deleteEmployee = function (addEmployee) {
+            $http({url: commonResourcesFactory.deleteEmployeeUrl+addEmployee, method: 'DELETE'}).
+                success(function (data) {
+                    $http({url: commonResourcesFactory.findAllEmployeesUrl, method: 'GET'}).
+                        success(function (data, status, headers, config) {
+                            $scope.employees = data;
+
+                        });
+                });
+
+        };
     }]);
